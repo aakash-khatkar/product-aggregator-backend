@@ -11,12 +11,18 @@ import { CareemService } from './external-providers/careem/careem.service';
 import { AmazonModule } from './external-providers/amazon/amazon.module';
 import { AmazonController } from './external-providers/amazon/amazon.controller';
 import { AmazonService } from './external-providers/amazon/amazon.service';
+import { ConfigModule } from '@nestjs/config';
+import { PrismaModule } from './database/prisma.module';
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     ScheduleModule.forRoot(),
     NoonModule,
     CareemModule,
     AmazonModule,
+    // PrismaModule
   ],
   controllers: [AppController, NoonController, CareemController, AmazonController],
   providers: [AppService, NoonService, CareemService, AmazonService],

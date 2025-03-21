@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id             String            @id @default(uuid())
+  name           String
+  description    String
+  isActive       Boolean           @default(true)
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  providerLinks  ProductProvider[]
+
+  @@index([name])
+  @@index([isActive])
+}
+
+model Provider {
+  id             String            @id @default(uuid())
+  name           String            @unique
+  baseUrl        String
+  staleAfterMs   Int
+  maxRetries     Int               @default(3)
+  isStale        Boolean           @default(false)
+  isActive       Boolean           @default(true)
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  productLinks   ProductProvider[]
+
+  @@index([isActive])
+}
+
+model ProductProvider {
+  id             String            @id @default(uuid())
+  productId      String
+  providerId     String
+  externalId     String            // ID from provider
+  price          Float
+  currency       String            @default("USD")
+  availability   Boolean
+  lastUpdated    DateTime
+  isActive       Boolean           @default(true)
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  product        Product           @relation(fields: [productId], references: [id])
+  provider       Provider          @relation(fields: [providerId], references: [id])
+  history        ProductHistory[]
+
+  @@unique([providerId, externalId])
+  @@index([productId])
+  @@index([providerId])
+  @@index([availability])
+  @@index([isActive])
+}
+
+model ProductHistory {
+  id                 String           @id @default(uuid())
+  productProviderId  String
+  price              Float
+  availability       Boolean
+  changedAt          DateTime         @default(now())
+
+  productProvider    ProductProvider  @relation(fields: [productProviderId], references: [id])
+
+  @@index([productProviderId, changedAt])
+  @@index([changedAt])
+}
