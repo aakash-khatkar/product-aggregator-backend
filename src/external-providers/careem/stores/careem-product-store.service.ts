@@ -3,11 +3,11 @@ import { v4 as uuid } from 'uuid';
 
 export interface MockProduct {
   id: string;
-  name: string;
-  description: string;
-  price: number;
-  currency: string;
-  availability: boolean;
+  title: string;
+  details: string;
+  amount: number;
+  currencyCode: string;
+  inStock: boolean;
   lastUpdated: string;
 }
 
@@ -23,21 +23,21 @@ export class CareemProductStore {
     const now = new Date().toISOString();
     this.products = [
       {
-        id: uuid(),
-        name: 'Course-101',
-        description: 'Learn something at Noon',
-        price: 19.99,
-        currency: 'USD',
-        availability: true,
+        id: 'uuid-careem-1',
+        title: 'Course-101',
+        details: 'Learn something at Noon',
+        amount: 19.99,
+        currencyCode: 'USD',
+        inStock: true,
         lastUpdated: now,
       },
       {
-        id: uuid(),
-        name: 'E-Book',
-        description: 'Digital reading material',
-        price: 9.99,
-        currency: 'USD',
-        availability: true,
+        id: 'uuid-careem-2',
+        title: 'E-Book',
+        details: 'Digital reading material',
+        amount: 9.99,
+        currencyCode: 'USD',
+        inStock: true,
         lastUpdated: now,
       },
     ];
@@ -52,8 +52,8 @@ export class CareemProductStore {
     this.products = this.products.map((product) => {
       const updated = {
         ...product,
-        price: parseFloat((product.price * (0.9 + Math.random() * 0.2)).toFixed(2)),
-        availability: Math.random() > 0.2,
+        amount: parseFloat((product.amount * (0.9 + Math.random() * 0.2)).toFixed(2)),
+        inStock: Math.random() > 0.2,
         lastUpdated: now,
       };
       return updated;
