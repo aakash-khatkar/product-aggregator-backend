@@ -121,7 +121,7 @@ Used `Promise.allSettled` for concurrency in scheduler jobs to:
 
 ## 📈 Realtime Dashboard
 
-Live product change stream via SSE
+Live product change stream via SSE. Please wait a few seconds for real-time updates to appear.
 
 📍 [http://localhost:3000/stream/dashboard](http://localhost:3000/stream/dashboard)
 
