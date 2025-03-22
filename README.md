@@ -15,7 +15,8 @@ Built using **NestJS**, **Prisma**, **PostgreSQL**, **Redis**, and follows clean
 ### ⚙️ Run Project
 
 ```bash
-docker-compose up -d                # Starts PostgreSQL and Redis
+sh create-env.sh                 # set env varialbles 
+docker-compose up -d             # Starts PostgreSQL and Redis
 npm run setup:db                 # Runs migrations and seeds data
 npm run start:dev                # Starts the NestJS app in watch mode
 ```
