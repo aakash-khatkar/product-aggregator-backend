@@ -1,4 +1,6 @@
+
 services:
+  # Dev Database
   db:
     image: postgres:15
     restart: always
@@ -12,6 +14,21 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  # Test Database
+  db-test:
+    image: postgres:15
+    restart: always
+    container_name: product_pg_test
+    ports:
+      - '5433:5432' # expose test DB on a different host port
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: price_aggregator_test
+    volumes:
+      - pgtestdata:/var/lib/postgresql/data
+
+  # Redis
   redis:
     image: redis:7
     restart: always
@@ -21,3 +38,4 @@ services:
 
 volumes:
   pgdata:
+  pgtestdata:
