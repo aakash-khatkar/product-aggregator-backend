@@ -81,10 +81,12 @@ export class ProductHistoryRepository {
       const { id: providerId, name: providerName } = change.productProvider.provider;
 
       const prev = prevMap.get(change.productProviderId);
+      const isFirstEntry = !prevMap.has(change.productProviderId);
       const oldPrice = prev?.price ?? change.price;
       const oldAvailability = prev?.availability ?? change.availability;
 
-      if (oldPrice === change.price && oldAvailability === change.availability) continue;
+      const isSame = oldPrice === change.price && oldAvailability === change.availability;
+      if (!isFirstEntry && isSame) continue;
 
       if (!groupedMap.has(productId)) {
         groupedMap.set(productId, {

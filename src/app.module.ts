@@ -12,7 +12,6 @@ import { AmazonModule } from './external-providers/amazon/amazon.module';
 import { AmazonController } from './external-providers/amazon/amazon.controller';
 import { AmazonService } from './external-providers/amazon/amazon.service';
 import { ConfigModule } from '@nestjs/config';
-import { PrismaModule } from './database/prisma.module';
 import { ProviderModule } from './provider/provider.module';
 import { SchedulerModule } from './scheduler/scheduler.module';
 import { FetcherModule } from './fetcher/fetcher.module';

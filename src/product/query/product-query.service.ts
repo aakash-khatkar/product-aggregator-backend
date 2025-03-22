@@ -13,7 +13,7 @@ export class ProductQueryService {
     const page = filter.page ?? 1;
     const limit = filter.limit ?? 20;
     const { data, total } = await this.productRepository.findFilteredProducts(filter);
-  
+    
     return {
       data,
       total,
@@ -30,6 +30,6 @@ export class ProductQueryService {
   }
   
   async getChangedProducts(filter: ProductChangeFilterDto) {
-    return this.productHistoryRepository.getChangedProducts(filter);
+     return await this.productHistoryRepository.getChangedProducts(filter);
   }
 }

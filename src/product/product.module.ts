@@ -14,6 +14,7 @@ import { ProductController } from './product.controller';
 import { ProductQueryService } from './query/product-query.service';
 import { ProductRepository } from './repositories/product.repository';
 import { ProductHistoryRepository } from './repositories/product-history.repository';
+import { ProductStreamController } from './product-stream.controller';
 
 @Module({
   imports: [
@@ -38,6 +39,6 @@ import { ProductHistoryRepository } from './repositories/product-history.reposit
   exports:[
     ProductService
   ],
-  controllers: [ProductController]
+  controllers: [ProductController , ProductStreamController]
 })
 export class ProductModule {}

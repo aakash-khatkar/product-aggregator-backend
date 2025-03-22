@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Changes (Real-time)</title>
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        padding: 2rem;
+        background-color: #f9f9f9;
+        color: #333;
+      }
+
+      h2 {
+        margin-bottom: 0.5rem;
+      }
+
+      #last-updated {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 1rem;
+      }
+
+      .product {
+        background-color: #fff;
+        margin-bottom: 1.5rem;
+        padding: 1rem 1.5rem;
+        border-left: 5px solid #007bff;
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+      }
+
+      .product.updated {
+        animation: flash 1s ease-in-out;
+        border-left-color: #28a745;
+      }
+
+      @keyframes flash {
+        0% {
+          background-color: #e6ffee;
+        }
+        100% {
+          background-color: white;
+        }
+      }
+
+      .product strong {
+        font-size: 1.1rem;
+        color: #007bff;
+      }
+
+      .provider-change {
+        margin-left: 1rem;
+        margin-top: 0.5rem;
+        padding: 0.5rem 0.8rem;
+        border-left: 3px solid #ddd;
+        background-color: #fafafa;
+        border-radius: 3px;
+      }
+
+      .provider-change span {
+        display: block;
+        margin: 2px 0;
+        font-size: 0.95rem;
+      }
+
+      #output p.no-data {
+        font-style: italic;
+        color: #999;
+        font-size: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Product Changes (Real-time)</h2>
+    <div id="last-updated">Last updated at: --</div>
+    <div id="output"><p id="no-data" class="no-data">Waiting for updates...</p></div>
+
+    <script>
+      const output = document.getElementById('output');
+      const lastUpdatedText = document.getElementById('last-updated');
+      const evtSource = new EventSource('/stream/changes');
+      const productMap = new Map();
+
+      function updateLastUpdatedTime() {
+        const now = new Date().toLocaleTimeString();
+        lastUpdatedText.textContent = `Last updated at: ${now}`;
+      }
+
+      function renderProduct(product) {
+        let productDiv = document.getElementById(`product-${product.productId}`);
+        const isNew = !productDiv;
+
+        if (!productDiv) {
+          productDiv = document.createElement('div');
+          productDiv.id = `product-${product.productId}`;
+          productDiv.className = 'product';
+          output.appendChild(productDiv);
+        } else {
+          productDiv.classList.add('updated');
+          setTimeout(() => productDiv.classList.remove('updated'), 1000);
+        }
+
+        productDiv.innerHTML = `<strong>Product: ${product.productName}</strong>`;
+
+        product.changes.forEach((change) => {
+          const changeDiv = document.createElement('div');
+          changeDiv.className = 'provider-change';
+          changeDiv.innerHTML = `
+            <span><strong>Provider:</strong> ${change.providerName}</span>
+            <span><strong>Old Price:</strong> ${change.oldPrice}</span>
+            <span><strong>New Price:</strong> ${change.newPrice}</span>
+            <span><strong>Old Availability:</strong> ${change.oldAvailability}</span>
+            <span><strong>New Availability:</strong> ${change.newAvailability}</span>
+            <span><strong>Changed At:</strong> ${new Date(change.changedAt).toLocaleString()}</span>
+          `;
+          productDiv.appendChild(changeDiv);
+        });
+      }
+
+      evtSource.onmessage = (event) => {
+        const parsed = JSON.parse(event.data);
+        const products = parsed.data;
+
+        updateLastUpdatedTime();
+
+        // Remove "no data" message if present
+        const noDataEl = document.getElementById('no-data');
+        if (noDataEl) noDataEl.remove();
+
+        if (!products || products.length === 0) {
+          if (productMap.size === 0) {
+            output.innerHTML = `<p id="no-data" class="no-data">No new changes as of ${new Date().toLocaleTimeString()}</p>`;
+          }
+          return;
+        }
+
+        products.forEach((product) => {
+          productMap.set(product.productId, product);
+          renderProduct(product);
+        });
+      };
+
+      evtSource.onerror = (err) => {
+        output.innerHTML = '<p class="no-data">Error receiving updates</p>';
+        console.error('SSE error', err);
+      };
+    </script>
+  </body>
+</html>
