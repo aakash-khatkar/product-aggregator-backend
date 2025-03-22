@@ -35,9 +35,7 @@ export class ProductStreamController {
     );
   }
 
-  /**
-   * Serve the real-time HTML dashboard
-   */
+
   @Get('dashboard')
   serveHtml(@Res() res: Response) {
     const htmlPath = join(process.cwd(), 'public/index.html');

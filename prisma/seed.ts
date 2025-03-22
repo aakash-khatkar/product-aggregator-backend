@@ -38,7 +38,6 @@ async function main() {
     }),
   ]);
 
-  // 2. Create Products
   const products = await Promise.all([
     prisma.product.create({
       data: { name: 'Course-101', description: 'Comprehensive course on various topics' },
@@ -50,7 +49,6 @@ async function main() {
 
   const [course, ebook] = products;
 
-  // 3. Map ProductProvider links (simulate external product IDs and prices)
   await prisma.productProvider.createMany({
     data: [
       {

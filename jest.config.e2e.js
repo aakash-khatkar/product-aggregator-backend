@@ -9,6 +9,5 @@ module.exports = {
   moduleNameMapper: {
     '^src/(.*)$': '<rootDir>/src/$1',
   },
-  // Ensure dotenv loads BEFORE Nest bootstraps
   setupFiles: ['<rootDir>/test/load-env.ts'],
 };
