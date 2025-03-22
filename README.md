@@ -121,7 +121,7 @@ Used `Promise.allSettled` for concurrency in scheduler jobs to:
 
 ## 📈 Realtime Dashboard
 
-Live product change stream via SSE
+Live product change stream via SSE. Please wait a few seconds for real-time updates to appear.
 
 📍 [http://localhost:3000/stream/dashboard](http://localhost:3000/stream/dashboard)
 
@@ -138,6 +138,12 @@ Live product change stream via SSE
 - Metrics + observability
 - Rate limiting for real APIs
 - Plugin-based normalizers
+
+---
+
+## ⚠️ Note on Warnings
+
+- You may see warnings related to deprecated glob@7.x and inflight@1.0.6 during npm install. These come from Jest’s internal dependencies and are safe to ignore for this assignment. They do not affect functionality.
 
 ---
 
