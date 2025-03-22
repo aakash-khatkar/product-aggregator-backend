@@ -22,7 +22,7 @@ export class NoonProductStore {
     const now = new Date().toISOString();
     this.products = [
       {
-        id: '8a635367-1432-47f9-a57f-8a145fb44592',
+        id: 'uuid-noon-1',
         name: 'Course-101',
         description: 'Learn something at Noon',
         price: 19.99,
@@ -31,7 +31,7 @@ export class NoonProductStore {
         lastUpdated: now,
       },
       {
-        id: 'a917256b-551d-449d-8d9e-b26ec437df06',
+        id: 'uuid-noon-2',
         name: 'E-Book',
         description: 'Digital reading material',
         price: 9.99,

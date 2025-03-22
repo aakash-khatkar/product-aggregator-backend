@@ -26,8 +26,9 @@ model Provider {
   name           String            @unique
   baseUrl        String
   staleAfterMs   Int
+  fetchIntervalMs Int?  
+  lastFetchedAt   DateTime?
   maxRetries     Int               @default(3)
-  isStale        Boolean           @default(false)
   isActive       Boolean           @default(true)
   createdAt      DateTime          @default(now())
   updatedAt      DateTime          @updatedAt
@@ -35,6 +36,8 @@ model Provider {
   productLinks   ProductProvider[]
 
   @@index([isActive])
+  @@index([fetchIntervalMs])
+  @@index([lastFetchedAt])
 }
 
 model ProductProvider {
@@ -45,7 +48,8 @@ model ProductProvider {
   price          Float
   currency       String            @default("USD")
   availability   Boolean
-  lastUpdated    DateTime
+  lastProviderUpdate    DateTime?
+  isStale        Boolean           @default(false)
   isActive       Boolean           @default(true)
   createdAt      DateTime          @default(now())
   updatedAt      DateTime          @updatedAt
@@ -59,6 +63,7 @@ model ProductProvider {
   @@index([providerId])
   @@index([availability])
   @@index([isActive])
+  @@index([isStale])
 }
 
 model ProductHistory {
