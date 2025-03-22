@@ -48,7 +48,7 @@ export class SchedulerService implements OnModuleInit {
     }
   }
 
-  @Cron(CronExpression.EVERY_MINUTE)
+  @Cron('*/15 * * * * *')
   async checkAndMarkStaleProducts() {
     this.logger.log('Checking for stale products...');
     try {

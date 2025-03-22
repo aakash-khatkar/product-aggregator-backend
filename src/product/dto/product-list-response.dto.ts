@@ -24,6 +24,9 @@ export class ProviderLinkDto {
   @ApiProperty({ example: true, description: 'Availability of the product' })
   availability: boolean;
 
+  @ApiProperty({ example: true, description: 'Is product stale' })
+  isStale: boolean;
+
   @ApiProperty({ example: '2024-03-22T10:15:00Z', description: 'Last update timestamp from the provider' })
   lastProviderUpdate: Date;
 

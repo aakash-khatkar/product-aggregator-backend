@@ -52,6 +52,7 @@ export class ProductRepository {
               price: true,
               currency: true,
               availability: true,
+              isStale:true,
               lastProviderUpdate: true,
               provider: {
                 select: {

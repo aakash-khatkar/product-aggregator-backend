@@ -10,7 +10,7 @@ export class PriceUpdaterJob implements OnModuleInit {
     this.careemService.updatePrices();
   }
 
-  @Interval(5000)
+  @Interval(60000)
   handleInterval() {
     this.careemService.updatePrices();
   }

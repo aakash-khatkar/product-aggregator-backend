@@ -31,7 +31,7 @@ async function main() {
       create: {
         name: 'Careem',
         baseUrl: 'http://localhost:3000/external/careem/products',
-        staleAfterMs: 60000,
+        staleAfterMs: 15000,
         lastFetchedAt: null,
         maxRetries: 3,
       },

@@ -3,7 +3,7 @@ import { Transform } from 'class-transformer';
 import { IsISO8601, IsOptional, IsInt, Min } from 'class-validator';
 
 export class ProductChangeFilterDto {
-  @ApiProperty({ description: 'ISO timestamp string (required)' })
+  @ApiProperty({ description: 'ISO timestamp string (required). To try it with the default value, just wait a few seconds after the server is up and running.', default: new Date().toISOString() })
   @IsISO8601()
   since: string;
 
