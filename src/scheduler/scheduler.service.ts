@@ -2,6 +2,7 @@ import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { ProviderService } from 'src/provider/provider.service';
 import { FetcherService } from 'src/fetcher/fetcher.service';
+import { ProductService } from 'src/product/product.service';
 @Injectable()
 export class SchedulerService implements OnModuleInit {
   private readonly logger = new Logger(SchedulerService.name);
@@ -9,6 +10,7 @@ export class SchedulerService implements OnModuleInit {
   constructor(
     private readonly providerService: ProviderService,
     private readonly fetcherService: FetcherService,
+    private readonly productService: ProductService,
   ) {}
 
   onModuleInit() {
@@ -43,6 +45,16 @@ export class SchedulerService implements OnModuleInit {
       );
     } catch (err) {
       this.logger.error('Scheduler failed:', err);
+    }
+  }
+
+  @Cron(CronExpression.EVERY_MINUTE)
+  async checkAndMarkStaleProducts() {
+    this.logger.log('Checking for stale products...');
+    try {
+      await this.productService.markStaleProducts();
+    } catch (error) {
+      this.logger.error('Failed to mark stale products', error.stack);
     }
   }
 }

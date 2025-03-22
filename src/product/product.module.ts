@@ -9,6 +9,11 @@ import { CareemNormalizer } from './normalizers/careem-normalizer.service';
 import { NormalizerFactory } from './normalizers/normalizer.factory';
 import { ProductService } from './product.service';
 import { ProductSyncService } from './sync/product-sync.service';
+import { ProductStaleMarkerService } from './stale/product-stale-marker.service';
+import { ProductController } from './product.controller';
+import { ProductQueryService } from './query/product-query.service';
+import { ProductRepository } from './repositories/product.repository';
+import { ProductHistoryRepository } from './repositories/product-history.repository';
 
 @Module({
   imports: [
@@ -24,7 +29,15 @@ import { ProductSyncService } from './sync/product-sync.service';
     CareemNormalizer,
     NormalizerFactory,
     ProductService,
-    ProductSyncService
+    ProductSyncService,
+    ProductStaleMarkerService,
+    ProductQueryService,
+    ProductRepository,
+    ProductHistoryRepository,
   ],
+  exports:[
+    ProductService
+  ],
+  controllers: [ProductController]
 })
 export class ProductModule {}
