@@ -141,6 +141,12 @@ Live product change stream via SSE
 
 ---
 
+## ⚠️ Note on Warnings
+
+- You may see warnings related to deprecated glob@7.x and inflight@1.0.6 during npm install. These come from Jest’s internal dependencies and are safe to ignore for this assignment. They do not affect functionality.
+
+---
+
 ## 👨‍💻 Author
 
 Designed and built to showcase:
